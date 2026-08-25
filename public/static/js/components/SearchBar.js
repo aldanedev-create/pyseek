@@ -8,11 +8,6 @@ const __component = {
   },
 
   methods: {
-    inputChanged(event) {
-      event.stopPropagation()
-            this.localQuery = event.target.value
-            this.$emit('suggest', this.localQuery)
-    },
     submit(event) {
       event.preventDefault()
             const input = event.currentTarget.querySelector('input')
@@ -22,7 +17,7 @@ const __component = {
 
   props: {"query": {"type": "String", "required": false, "default": null, "validator": null}, "suggestions": {"type": "Array", "required": false, "default": null, "validator": null}, "loading": {"type": "Boolean", "required": false, "default": null, "validator": null}},
 
-  template: `<div class="search-wrap"><form class="search-form" @submit="submit"><span class="search-icon" aria-hidden="true">⌕</span><input placeholder="Search the indexed web" aria-label="Search" autofocus="" data-teloce-bind-value="localQuery" @input="inputChanged"><button type="submit">Search</button></form><if condition="suggestions && suggestions.length"><div class="suggestions"><for key="item" item="item" in="suggestions"><button data-teloce-key="{{ item.item }}" type="button" @click="$emit('choose', item)">{{ item }}</button></for></div></if></div>`,
+  template: `<div class="search-wrap"><form class="search-form" @submit="submit"><span class="search-icon" aria-hidden="true">⌕</span><input placeholder="Search the indexed web" aria-label="Search" autofocus="" data-teloce-model="localQuery" @input.stop="$emit('suggest', $event.target.value)"><button type="submit">Search</button></form><if condition="suggestions && suggestions.length"><div class="suggestions"><for key="item" item="item" in="suggestions"><button data-teloce-key="{{ item.item }}" type="button" @click="$emit('choose', item)">{{ item }}</button></for></div></if></div>`,
 };
 
 const __components = {};
@@ -37,7 +32,7 @@ const __readProps = (element, parentState) => {
   }
   return props;
 };
-const __template = "<div class=\"search-wrap\"><form class=\"search-form\" @submit=\"submit\"><span class=\"search-icon\" aria-hidden=\"true\">⌕</span><input placeholder=\"Search the indexed web\" aria-label=\"Search\" autofocus=\"\" data-teloce-bind-value=\"localQuery\" @input=\"inputChanged\"><button type=\"submit\">Search</button></form><if condition=\"suggestions && suggestions.length\"><div class=\"suggestions\"><for key=\"item\" item=\"item\" in=\"suggestions\"><button data-teloce-key=\"{{ item.item }}\" type=\"button\" @click=\"$emit('choose', item)\">{{ item }}</button></for></div></if></div>";
+const __template = "<div class=\"search-wrap\"><form class=\"search-form\" @submit=\"submit\"><span class=\"search-icon\" aria-hidden=\"true\">⌕</span><input placeholder=\"Search the indexed web\" aria-label=\"Search\" autofocus=\"\" data-teloce-model=\"localQuery\" @input.stop=\"$emit('suggest', $event.target.value)\"><button type=\"submit\">Search</button></form><if condition=\"suggestions && suggestions.length\"><div class=\"suggestions\"><for key=\"item\" item=\"item\" in=\"suggestions\"><button data-teloce-key=\"{{ item.item }}\" type=\"button\" @click=\"$emit('choose', item)\">{{ item }}</button></for></div></if></div>";
 const __style = "";
 const __styleClasses = {};
 const __moduleUrl = typeof import.meta !== "undefined" ? import.meta.url.split("?")[0] : "";

@@ -2,7 +2,7 @@
   <div class="search-wrap">
     <form class="search-form" @submit="submit">
       <span class="search-icon" aria-hidden="true">⌕</span>
-      <input :value="localQuery" @input="inputChanged" placeholder="Search the indexed web" aria-label="Search" autofocus />
+      <input v-model="localQuery" @input.stop="$emit('suggest', $event.target.value)" placeholder="Search the indexed web" aria-label="Search" autofocus />
       <button type="submit">Search</button>
     </form>
     <div v-if="suggestions && suggestions.length" class="suggestions">
@@ -15,11 +15,6 @@ export default {
   data() { return { localQuery: '' } },
   props: { query: String, suggestions: Array, loading: Boolean },
   methods: {
-    inputChanged(event) {
-      event.stopPropagation()
-      this.localQuery = event.target.value
-      this.$emit('suggest', this.localQuery)
-    },
     submit(event) {
       event.preventDefault()
       const input = event.currentTarget.querySelector('input')
