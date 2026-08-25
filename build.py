@@ -7,6 +7,24 @@ from teloce.build import build_project
 ROOT = Path(__file__).resolve().parent
 
 
+def patch_component_props(dist: Path) -> None:
+    """Bridge dynamic component bindings for the currently supported runtime.
+
+    Teloce compiles ``:prop`` on a component to ``data-teloce-bind-prop``.
+    Older generated runtimes applied those bindings to native elements but
+    did not expose them through the child component prop reader.  PySeek
+    relies on dynamic props for results, stats, and browser history, so patch
+    the generated bundle during the build until the runtime release carrying
+    this fix is available.
+    """
+    old = 'if (attribute.name.startsWith(":")) props[attribute.name.slice(1)] = __evaluate(attribute.value, parentState);'
+    new = 'if (attribute.name.startsWith("data-teloce-bind-")) props[attribute.name.slice("data-teloce-bind-".length)] = __evaluate(attribute.value, parentState); else if (attribute.name.startsWith(":")) props[attribute.name.slice(1)] = __evaluate(attribute.value, parentState);'
+    for file in dist.rglob("*.js"):
+        source = file.read_text(encoding="utf-8")
+        if old in source:
+            file.write_text(source.replace(old, new), encoding="utf-8")
+
+
 if __name__ == "__main__":
     # Avoid feeding a previous published bundle back into the source asset
     # copier on repeated builds.
@@ -15,6 +33,7 @@ if __name__ == "__main__":
     result = build_project(ROOT, options={"dev": False, "source_maps": False})
     # Publish Teloce's dist artifact to the directory served by Vercel.
     dist = ROOT / "dist"
+    patch_component_props(dist)
     published = ROOT / "public"
     for source in (dist / "static", dist / "public"):
         if not source.exists():
