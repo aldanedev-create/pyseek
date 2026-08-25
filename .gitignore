@@ -6,3 +6,6 @@ dist/
 *.png
 *.jpg
 *.jpeg
+
+.vercel
+.env*
