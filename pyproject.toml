@@ -12,3 +12,7 @@ dependencies = ["flaxon", "teloce-py", "psycopg[binary]>=3.2", "beautifulsoup4>=
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["api", "config", "crawler", "database", "search_engine", "services", "workers"]
+py-modules = ["app", "run"]
