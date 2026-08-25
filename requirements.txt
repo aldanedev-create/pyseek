@@ -1,0 +1,5 @@
+flaxon
+teloce-py
+psycopg[binary]>=3.2
+beautifulsoup4>=4.12
+httpx>=0.27

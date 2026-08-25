@@ -1,0 +1,2 @@
+<template><section class="side-card"><div class="side-heading"><h2>Recent searches</h2><button v-if="items && items.length" class="text-button" @click="$emit('clear')">Clear</button></div><p v-if="!items || !items.length" class="muted">Your searches stay in this browser.</p><button v-for="item in items" :key="item.id" class="history-item" @click="$emit('pick', item.value)">⌕ {{ item.value }}</button></section></template>
+<script>export default { props: { items: Array } }</script>

@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pyseek
+      POSTGRES_USER: pyseek
+      POSTGRES_PASSWORD: pyseek
+    ports: ["5432:5432"]
+    volumes: ["pyseek-postgres:/var/lib/postgresql/data"]
+  pyseek:
+    build: .
+    ports: ["8000:8000"]
+    env_file: .env
+    environment:
+      FLAXON_DEBUG: "true"
+      DATABASE_URL: postgresql://pyseek:pyseek@postgres:5432/pyseek
+    depends_on: [postgres]
+
+volumes:
+  pyseek-postgres:

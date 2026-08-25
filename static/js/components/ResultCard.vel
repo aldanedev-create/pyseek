@@ -1,0 +1,2 @@
+<template><article class="result-card"><a class="result-url" :href="result.url" target="_blank" rel="noreferrer">{{ result.url }}</a><h2><a :href="result.url" target="_blank" rel="noreferrer">{{ result.title || result.url }}</a></h2><p v-html="result.snippet || result.description || 'No description available.'"></p></article></template>
+<script>export default { props: { result: Object } }</script>

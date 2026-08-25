@@ -1,0 +1,8 @@
+pyseek.local.db
+sqlite-dev-check.db
+__pycache__/
+*.pyc
+dist/
+*.png
+*.jpg
+*.jpeg

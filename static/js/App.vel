@@ -1,0 +1,4 @@
+<script>
+import SearchShell from './components/SearchShell.vel'
+</script>
+<template><SearchShell /></template>

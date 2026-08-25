@@ -1,0 +1,1 @@
+{"name":"PySeek","short_name":"PySeek","id":"/","start_url":"/","scope":"/","display":"standalone","background_color":"#f5f7fb","theme_color":"#3155d9","description":"A focused open-web search index built with Python and Teloce-Py.","icons":[{"src":"/assets/icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

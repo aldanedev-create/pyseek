@@ -1,0 +1,2 @@
+-- Fresh deployments use database/schema.sql. This marker keeps the planned
+-- migration layout explicit for future non-breaking schema changes.

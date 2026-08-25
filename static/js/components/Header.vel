@@ -1,0 +1,2 @@
+<template><header class="topbar"><a class="brand" href="/" aria-label="PySeek home"><span class="logo">P</span><span>PySeek</span></a><span class="index-count">{{ documents || 0 }} indexed pages</span></header></template>
+<script>export default { props: { documents: Number } }</script>

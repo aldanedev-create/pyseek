@@ -1,0 +1,39 @@
+<script>
+import Header from './Header.vel'
+import SearchBar from './SearchBar.vel'
+import SearchResults from './SearchResults.vel'
+import SearchHistory from './SearchHistory.vel'
+import CrawlStatus from './CrawlStatus.vel'
+
+export default {
+  data() { return { query: '', results: [], history: [], suggestions: [], stats: { documents: 0, queued: 0 }, loading: false, error: '', searched: false } },
+  mounted() { this.loadHistory(); this.loadStats() },
+  methods: {
+    async search(value) {
+      const text = typeof value === 'string' ? value : (value?.target?.value || this.query || '')
+      this.query = String(text).trim(); if (!this.query) return
+      this.loading = true; this.error = ''; this.searched = true
+      try { const response = await fetch('/api/search?q=' + encodeURIComponent(this.query)); const data = await response.json(); if (!response.ok || !data.ok) throw new Error(data.error || 'Search failed'); this.results = data.results || []; this.remember(this.query) }
+      catch (error) { this.error = error.message; this.results = [] }
+      finally { this.loading = false }
+    },
+    async loadStats() { try { const response = await fetch('/api/stats'); if (response.ok) this.stats = (await response.json()) } catch (_) {} },
+    async suggest(value) { const text = typeof value === 'string' ? value : (value?.target?.value || ''); this.query = String(text); if (text.length < 2) { this.suggestions = []; return }; try { const response = await fetch('/api/suggest?q=' + encodeURIComponent(text)); this.suggestions = (await response.json()).suggestions || [] } catch (_) { this.suggestions = [] } },
+    async loadHistory() { if (window.PySeekStorage) this.history = await window.PySeekStorage.list('history') },
+    async remember(value) { if (window.PySeekStorage) { await window.PySeekStorage.put('history', { id: value, value: value, createdAt: Date.now() }); this.loadHistory() } },
+    async clearHistory() { if (window.PySeekStorage) { await window.PySeekStorage.clear('history'); this.history = [] } },
+    chooseSuggestion(value) { this.suggestions = []; this.search(typeof value === 'string' ? value : value?.target?.value) }
+  }
+}
+</script>
+<template>
+  <div class="shell">
+    <Header :documents="stats.documents" />
+    <section class="hero"><p class="eyebrow">OPEN WEB INDEX · POWERED BY FLAXON</p><h1>Find the useful web.</h1><p class="lede">A focused search engine built with Python, PostgreSQL, and composable <code>.vel</code> components.</p><SearchBar :query="query" :suggestions="suggestions" :loading="loading" @search="search" @input="suggest" @choose="chooseSuggestion" /></section>
+    <section class="layout">
+      <div class="results-panel"><div v-if="loading" class="notice">Searching the PySeek index…</div><div v-if="error" class="notice error">{{ error }}</div><div v-if="searched && !results.length && !loading" class="notice">No indexed pages matched. Seed a site and let the crawler build the index.</div><SearchResults :results="results" :query="query" /></div>
+      <aside><CrawlStatus :stats="stats" @refresh="loadStats" /><SearchHistory :items="history" @pick="search" @clear="clearHistory" /></aside>
+    </section>
+    <footer><span>PySeek is an experimental, transparent index—not a replacement for the whole web.</span><span>Built with Teloce-Py + Flaxon</span></footer>
+  </div>
+</template>
