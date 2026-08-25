@@ -1,2 +1,30 @@
-<template><div class="search-wrap"><form class="search-form" @submit="submit"><span class="search-icon">⌕</span><input placeholder="Search the indexed web" aria-label="Search" autofocus /><button type="submit">Search</button></form><div v-if="suggestions && suggestions.length" class="suggestions"><button v-for="item in suggestions" :key="item" @click="$emit('choose', item)">{{ item }}</button></div></div></template>
-<script>export default { props: { query: String, suggestions: Array, loading: Boolean }, methods: { submit(event) { event.preventDefault(); const input = event.currentTarget.querySelector('input'); this.$emit('search', input ? input.value : '') } } }</script>
+<template>
+  <div class="search-wrap">
+    <form class="search-form" @submit="submit">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input :value="localQuery" @input="inputChanged" placeholder="Search the indexed web" aria-label="Search" autofocus />
+      <button type="submit">Search</button>
+    </form>
+    <div v-if="suggestions && suggestions.length" class="suggestions">
+      <button v-for="item in suggestions" :key="item" type="button" @click="$emit('choose', item)">{{ item }}</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() { return { localQuery: '' } },
+  props: { query: String, suggestions: Array, loading: Boolean },
+  methods: {
+    inputChanged(event) {
+      event.stopPropagation()
+      this.localQuery = event.target.value
+      this.$emit('suggest', this.localQuery)
+    },
+    submit(event) {
+      event.preventDefault()
+      const input = event.currentTarget.querySelector('input')
+      this.$emit('search', input ? input.value : this.localQuery)
+    }
+  }
+}
+</script>

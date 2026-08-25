@@ -3,15 +3,26 @@
 const __component = {
   name: "SearchBar",
 
+  data() {
+    return { localQuery: '' };
+  },
+
   methods: {
+    inputChanged(event) {
+      event.stopPropagation()
+            this.localQuery = event.target.value
+            this.$emit('suggest', this.localQuery)
+    },
     submit(event) {
-      event.preventDefault(); const input = event.currentTarget.querySelector('input'); this.$emit('search', input ? input.value : '')
+      event.preventDefault()
+            const input = event.currentTarget.querySelector('input')
+            this.$emit('search', input ? input.value : this.localQuery)
     },
   },
 
   props: {"query": {"type": "String", "required": false, "default": null, "validator": null}, "suggestions": {"type": "Array", "required": false, "default": null, "validator": null}, "loading": {"type": "Boolean", "required": false, "default": null, "validator": null}},
 
-  template: `<div class="search-wrap"><form class="search-form" @submit="submit"><span class="search-icon">⌕</span><input placeholder="Search the indexed web" aria-label="Search" autofocus=""><button type="submit">Search</button></form><if condition="suggestions && suggestions.length"><div class="suggestions"><for key="item" item="item" in="suggestions"><button data-teloce-key="{{ item.item }}" @click="$emit('choose', item)">{{ item }}</button></for></div></if></div>`,
+  template: `<div class="search-wrap"><form class="search-form" @submit="submit"><span class="search-icon" aria-hidden="true">⌕</span><input placeholder="Search the indexed web" aria-label="Search" autofocus="" data-teloce-bind-value="localQuery" @input="inputChanged"><button type="submit">Search</button></form><if condition="suggestions && suggestions.length"><div class="suggestions"><for key="item" item="item" in="suggestions"><button data-teloce-key="{{ item.item }}" type="button" @click="$emit('choose', item)">{{ item }}</button></for></div></if></div>`,
 };
 
 const __components = {};
@@ -26,7 +37,7 @@ const __readProps = (element, parentState) => {
   }
   return props;
 };
-const __template = "<div class=\"search-wrap\"><form class=\"search-form\" @submit=\"submit\"><span class=\"search-icon\">⌕</span><input placeholder=\"Search the indexed web\" aria-label=\"Search\" autofocus=\"\"><button type=\"submit\">Search</button></form><if condition=\"suggestions && suggestions.length\"><div class=\"suggestions\"><for key=\"item\" item=\"item\" in=\"suggestions\"><button data-teloce-key=\"{{ item.item }}\" @click=\"$emit('choose', item)\">{{ item }}</button></for></div></if></div>";
+const __template = "<div class=\"search-wrap\"><form class=\"search-form\" @submit=\"submit\"><span class=\"search-icon\" aria-hidden=\"true\">⌕</span><input placeholder=\"Search the indexed web\" aria-label=\"Search\" autofocus=\"\" data-teloce-bind-value=\"localQuery\" @input=\"inputChanged\"><button type=\"submit\">Search</button></form><if condition=\"suggestions && suggestions.length\"><div class=\"suggestions\"><for key=\"item\" item=\"item\" in=\"suggestions\"><button data-teloce-key=\"{{ item.item }}\" type=\"button\" @click=\"$emit('choose', item)\">{{ item }}</button></for></div></if></div>";
 const __style = "";
 const __styleClasses = {};
 const __moduleUrl = typeof import.meta !== "undefined" ? import.meta.url.split("?")[0] : "";
@@ -34,7 +45,7 @@ const __hmrRegistry = typeof globalThis !== "undefined" ? (globalThis.__teloce_h
 const __registerHmr = record => { if (!__moduleUrl) return; if (!__hmrRegistry.has(__moduleUrl)) __hmrRegistry.set(__moduleUrl, new Set()); __hmrRegistry.get(__moduleUrl).add(record); };
 const __unregisterHmr = record => { const records = __hmrRegistry.get(__moduleUrl); records?.delete(record); if (records?.size === 0) __hmrRegistry.delete(__moduleUrl); };
 if (typeof globalThis !== "undefined" && !globalThis.__teloce_hmr_reload) globalThis.__teloce_hmr_reload = async () => { const records = [...__hmrRegistry.values()].flatMap(set => [...set]); for (const record of records) await record.reload(); };
-const __initialData = {};
+const __initialData = { localQuery: '' };
 const __normalizeProps = (input) => { const output = { ...input }; for (const [name, definition] of Object.entries(__component.props || {})) { if (output[name] === undefined && definition?.type === "Boolean") output[name] = false; if (output[name] === undefined && definition && definition.default !== null && definition.default !== undefined) { try { output[name] = Function(`return (${definition.default})`)(); } catch (_) {} } if (__dev && definition?.required && output[name] === undefined) console.warn(`Missing required prop: ${name}`); if (__dev && definition?.type && output[name] !== undefined) { const expected = String(definition.type).split("|"); const actual = output[name]?.constructor?.name; if (!expected.includes(actual)) console.warn(`Invalid prop type for ${name}: expected ${definition.type}, got ${actual}`); } if (definition?.validator && output[name] !== undefined) { try { const valid = Function(`return (${definition.validator})`)()(output[name]); if (__dev && !valid) console.warn(`Invalid prop value for ${name}`); } catch (error) { if (__dev) console.warn(`Prop validator failed for ${name}`, error); } } } return output; };
 const __installStyle = () => {
   if (!__style || typeof document === "undefined") return;
