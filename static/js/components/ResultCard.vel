@@ -1,2 +1,10 @@
-<template><article class="result-card"><a class="result-url" :href="result.url" target="_blank" rel="noreferrer">{{ result.url }}</a><h2><a :href="result.url" target="_blank" rel="noreferrer">{{ result.title || result.url }}</a></h2><p v-html="result.snippet || result.description || 'No description available.'"></p></article></template>
-<script>export default { props: { result: Object } }</script>
+<template>
+  <article class="result-card">
+    <a class="result-url" :href="url" target="_blank" rel="noreferrer">{{ url }}</a>
+    <h2><a :href="url" target="_blank" rel="noreferrer">{{ title || url }}</a></h2>
+    <p v-html="snippet || description || 'No description available.'"></p>
+  </article>
+</template>
+<script>
+export default { props: { url: String, title: String, snippet: String, description: String } }
+</script>

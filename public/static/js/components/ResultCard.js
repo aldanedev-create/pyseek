@@ -3,9 +3,9 @@
 const __component = {
   name: "ResultCard",
 
-  props: {"result": {"type": "Object", "required": false, "default": null, "validator": null}},
+  props: {"url": {"type": "String", "required": false, "default": null, "validator": null}, "title": {"type": "String", "required": false, "default": null, "validator": null}, "snippet": {"type": "String", "required": false, "default": null, "validator": null}, "description": {"type": "String", "required": false, "default": null, "validator": null}},
 
-  template: `<article class="result-card"><a class="result-url" target="_blank" rel="noreferrer" data-teloce-bind-href="result.url">{{ result.url }}</a><h2><a target="_blank" rel="noreferrer" data-teloce-bind-href="result.url">{{ result.title || result.url }}</a></h2><p data-teloce-bind-html="result.snippet || result.description || &#x27;No description available.&#x27;"></p></article>`,
+  template: `<article class="result-card"><a class="result-url" target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ url }}</a><h2><a target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ title || url }}</a></h2><p data-teloce-bind-html="snippet || description || &#x27;No description available.&#x27;"></p></article>`,
 };
 
 const __components = {};
@@ -20,7 +20,7 @@ const __readProps = (element, parentState) => {
   }
   return props;
 };
-const __template = "<article class=\"result-card\"><a class=\"result-url\" target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"result.url\">{{ result.url }}</a><h2><a target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"result.url\">{{ result.title || result.url }}</a></h2><p data-teloce-bind-html=\"result.snippet || result.description || &#x27;No description available.&#x27;\"></p></article>";
+const __template = "<article class=\"result-card\"><a class=\"result-url\" target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ url }}</a><h2><a target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ title || url }}</a></h2><p data-teloce-bind-html=\"snippet || description || &#x27;No description available.&#x27;\"></p></article>";
 const __style = "";
 const __styleClasses = {};
 const __moduleUrl = typeof import.meta !== "undefined" ? import.meta.url.split("?")[0] : "";

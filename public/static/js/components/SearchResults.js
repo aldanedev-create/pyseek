@@ -6,7 +6,7 @@ const __component = {
 
   props: {"results": {"type": "Array", "required": false, "default": null, "validator": null}, "query": {"type": "String", "required": false, "default": null, "validator": null}},
 
-  template: `<div class="result-list" data-teloce-bind-hidden="!(results &amp;&amp; results.length)"><p class="result-meta">{{ results.length }}result<if condition="results.length !== 1"><span>s</span></if>for “{{ query }}”</p><for key="result.id || result.url" item="result" in="results"><ResultCard data-teloce-key="{{ result.result.id || result.url }}" data-teloce-bind-result="result"></ResultCard></for></div>`,
+  template: `<div class="result-list" data-teloce-bind-hidden="!(results &amp;&amp; results.length)"><p class="result-meta">{{ results.length }}result<if condition="results.length !== 1"><span>s</span></if>for “{{ query }}”</p><for key="result.id || result.url" item="result" in="results"><ResultCard data-teloce-key="{{ result.result.id || result.url }}" url="{{ result.url }}" title="{{ result.title }}" snippet="{{ result.snippet }}" description="{{ result.description }}"></ResultCard></for></div>`,
 };
 
 const __components = {"ResultCard": ResultCard};
@@ -21,7 +21,7 @@ const __readProps = (element, parentState) => {
   }
   return props;
 };
-const __template = "<div class=\"result-list\" data-teloce-bind-hidden=\"!(results &amp;&amp; results.length)\"><p class=\"result-meta\">{{ results.length }}result<if condition=\"results.length !== 1\"><span>s</span></if>for “{{ query }}”</p><for key=\"result.id || result.url\" item=\"result\" in=\"results\"><ResultCard data-teloce-key=\"{{ result.result.id || result.url }}\" data-teloce-bind-result=\"result\"></ResultCard></for></div>";
+const __template = "<div class=\"result-list\" data-teloce-bind-hidden=\"!(results &amp;&amp; results.length)\"><p class=\"result-meta\">{{ results.length }}result<if condition=\"results.length !== 1\"><span>s</span></if>for “{{ query }}”</p><for key=\"result.id || result.url\" item=\"result\" in=\"results\"><ResultCard data-teloce-key=\"{{ result.result.id || result.url }}\" url=\"{{ result.url }}\" title=\"{{ result.title }}\" snippet=\"{{ result.snippet }}\" description=\"{{ result.description }}\"></ResultCard></for></div>";
 const __style = "";
 const __styleClasses = {};
 const __moduleUrl = typeof import.meta !== "undefined" ? import.meta.url.split("?")[0] : "";
