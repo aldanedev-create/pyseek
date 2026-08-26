@@ -5,6 +5,6 @@ export default { components: { ResultCard }, props: { results: Array, query: Str
 <template>
   <div :hidden="!(results && results.length)" class="result-list">
     <p class="result-meta">{{ results.length }} result<span v-if="results.length !== 1">s</span> for “{{ query }}”</p>
-    <ResultCard v-for="result in results" :key="result.id || result.url" url="{{ result.url }}" title="{{ result.title }}" snippet="{{ result.snippet }}" description="{{ result.description }}" />
+    <ResultCard v-for="result in results" :key="result.id || result.url" url="{{ result.url }}" title="{{ result.title }}" snippet="{{ result.snippet }}" description="{{ result.description }}" source="{{ result.source }}" />
   </div>
 </template>

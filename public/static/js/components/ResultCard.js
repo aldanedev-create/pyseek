@@ -3,9 +3,9 @@
 const __component = {
   name: "ResultCard",
 
-  props: {"url": {"type": "String", "required": false, "default": null, "validator": null}, "title": {"type": "String", "required": false, "default": null, "validator": null}, "snippet": {"type": "String", "required": false, "default": null, "validator": null}, "description": {"type": "String", "required": false, "default": null, "validator": null}},
+  props: {"url": {"type": "String", "required": false, "default": null, "validator": null}, "title": {"type": "String", "required": false, "default": null, "validator": null}, "snippet": {"type": "String", "required": false, "default": null, "validator": null}, "description": {"type": "String", "required": false, "default": null, "validator": null}, "source": {"type": "String", "required": false, "default": null, "validator": null}},
 
-  template: `<article class="result-card"><a class="result-url" target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ url }}</a><h2><a target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ title || url }}</a></h2><p data-teloce-bind-html="snippet || description || &#x27;No description available.&#x27;"></p></article>`,
+  template: `<article data-v-f1de75841="" class="result-card"><a data-v-f1de75841="" class="result-url" target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ url }}</a><div data-v-f1de75841="" class="result-heading"><h2 data-v-f1de75841=""><a data-v-f1de75841="" target="_blank" rel="noreferrer" data-teloce-bind-href="url">{{ title || url }}</a></h2><small data-v-f1de75841="">{{ source === 'web' ? 'Web search' : 'PySeek index' }}</small></div><p data-v-f1de75841="" data-teloce-bind-html="snippet || description || &#x27;No description available.&#x27;"></p></article>`,
 };
 
 const __components = {};
@@ -20,8 +20,8 @@ const __readProps = (element, parentState) => {
   }
   return props;
 };
-const __template = "<article class=\"result-card\"><a class=\"result-url\" target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ url }}</a><h2><a target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ title || url }}</a></h2><p data-teloce-bind-html=\"snippet || description || &#x27;No description available.&#x27;\"></p></article>";
-const __style = "";
+const __template = "<article data-v-f1de75841=\"\" class=\"result-card\"><a data-v-f1de75841=\"\" class=\"result-url\" target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ url }}</a><div data-v-f1de75841=\"\" class=\"result-heading\"><h2 data-v-f1de75841=\"\"><a data-v-f1de75841=\"\" target=\"_blank\" rel=\"noreferrer\" data-teloce-bind-href=\"url\">{{ title || url }}</a></h2><small data-v-f1de75841=\"\">{{ source === 'web' ? 'Web search' : 'PySeek index' }}</small></div><p data-v-f1de75841=\"\" data-teloce-bind-html=\"snippet || description || &#x27;No description available.&#x27;\"></p></article>";
+const __style = ".result-heading[data-v-f1de75841] { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem }\n.result-heading small[data-v-f1de75841] { color: #8dded0; white-space: nowrap }";
 const __styleClasses = {};
 const __moduleUrl = typeof import.meta !== "undefined" ? import.meta.url.split("?")[0] : "";
 const __hmrRegistry = typeof globalThis !== "undefined" ? (globalThis.__teloce_hmr_instances ||= new Map()) : new Map();

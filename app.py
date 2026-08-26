@@ -13,6 +13,8 @@ from flaxon.jinax import Jinax
 from database.connection import database
 from database import repositories
 from services.search_service import search
+from services.web_search import enabled as web_search_enabled
+from services.web_search import search_web
 from services.ranking_service import normalize_query
 from crawler.worker import crawl_batch
 from crawler.canonical import canonicalize
@@ -83,7 +85,14 @@ async def api_search(request):
     if not query:
         return {"ok": True, "query": "", "results": [], "total": 0}
     try:
-        return {"ok": True, **search(query, domain=request.query_params.get("domain", ""))}
+        domain = request.query_params.get("domain", "")
+        local = search(query, domain=domain)
+        local_urls = {item.get("url", "").rstrip("/") for item in local["results"]}
+        web_results = []
+        if len(local["results"]) < 10:
+            web_results = await search_web(query, domain=domain, limit=10 - len(local["results"]))
+        merged = local["results"] + [item for item in web_results if item.get("url", "").rstrip("/") not in local_urls]
+        return {"ok": True, "query": query, "results": merged, "total": len(merged), "web_enabled": web_search_enabled()}
     except Exception as exc:
         return _json_error(f"Search index unavailable: {exc}", 503)
 

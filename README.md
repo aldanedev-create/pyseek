@@ -15,6 +15,8 @@ PySeek is a working reference application for Teloce-Py and Flaxon:
 
 It is intentionally a focused project, not a claim to index the entire public web. A production deployment must seed domains responsibly, obey their policies, monitor database usage, and provide a security contact.
 
+PySeek can optionally add live web results through the Google Custom Search JSON API. Set `GOOGLE_CSE_API_KEY` and `GOOGLE_CSE_ID` only on the server; the local index still works when these variables are absent. See `docs/deployment.md` for configuration and quota notes.
+
 ## Run
 
 ```powershell

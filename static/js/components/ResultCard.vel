@@ -1,10 +1,14 @@
 <template>
   <article class="result-card">
     <a class="result-url" :href="url" target="_blank" rel="noreferrer">{{ url }}</a>
-    <h2><a :href="url" target="_blank" rel="noreferrer">{{ title || url }}</a></h2>
+    <div class="result-heading"><h2><a :href="url" target="_blank" rel="noreferrer">{{ title || url }}</a></h2><small>{{ source === 'web' ? 'Web search' : 'PySeek index' }}</small></div>
     <p v-html="snippet || description || 'No description available.'"></p>
   </article>
 </template>
 <script>
-export default { props: { url: String, title: String, snippet: String, description: String } }
+export default { props: { url: String, title: String, snippet: String, description: String, source: String } }
 </script>
+<style scoped>
+.result-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.result-heading small { color: #8dded0; white-space: nowrap; }
+</style>

@@ -8,6 +8,7 @@ def search(query: str, limit: int = 20, domain: str = "") -> dict:
         return {"query": "", "results": [], "total": 0}
     results = repositories.search_documents(normalized, limit=limit, domain=domain)
     for result in results:
+        result["source"] = "pyseek"
         result["snippet"] = highlight(result.pop("body_text", ""), normalized)
         if result.get("fetched_at") and hasattr(result["fetched_at"], "isoformat"):
             result["fetched_at"] = result["fetched_at"].isoformat()
