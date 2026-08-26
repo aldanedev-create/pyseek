@@ -2,6 +2,12 @@
 
 PySeek is a small, real search engine built to demonstrate Teloce-Py `.vel` components and the Flaxon Python framework. Vercel hosts the application and scheduled crawl API; Neon PostgreSQL stores the crawl queue and searchable index.
 
+## Live website
+
+Use the deployed search engine here: **[https://pyseek.vercel.app](https://pyseek.vercel.app)**
+
+The main search bar searches PySeek’s indexed pages. The **Search beyond the PySeek index** panel opens Google web results in a new tab.
+
 ## What it proves
 
 PySeek is a working reference application for Teloce-Py and Flaxon:

@@ -1,5 +1,9 @@
 # Deploy PySeek to Vercel + Neon
 
+## Live deployment
+
+The current public PySeek website is [https://pyseek.vercel.app](https://pyseek.vercel.app). Open this link to test the `.vel` frontend, PySeek index search, browser history, index status, and Google web-search fallback.
+
 1. For local development, leave `DATABASE_URL` empty and PySeek uses `pyseek.local.db` with SQLite. For Vercel, create a Neon PostgreSQL database and copy its pooled `DATABASE_URL`.
 2. From `pyseek`, install dependencies and set the URL: `pip install -r requirements.txt` and `$env:DATABASE_URL='postgresql://...'`.
 3. Initialize the schema once: `python -c "from database.connection import database; database.ensure_schema(); print('schema ready')"`.
