@@ -19,10 +19,13 @@ def patch_component_props(dist: Path) -> None:
     """
     old = 'if (attribute.name.startsWith(":")) props[attribute.name.slice(1)] = __evaluate(attribute.value, parentState);'
     new = 'if (attribute.name.startsWith("data-teloce-bind-")) props[attribute.name.slice("data-teloce-bind-".length)] = __evaluate(attribute.value, parentState); else if (attribute.name.startsWith(":")) props[attribute.name.slice(1)] = __evaluate(attribute.value, parentState);'
+    old_plain = 'else if (!attribute.name.startsWith("data-")) props[attribute.name] = attribute.value;'
+    new_plain = 'else if (!attribute.name.startsWith("data-") && !element.hasAttribute("data-teloce-bind-" + attribute.name)) props[attribute.name] = attribute.value;'
     for file in dist.rglob("*.js"):
         source = file.read_text(encoding="utf-8")
-        if old in source:
-            file.write_text(source.replace(old, new), encoding="utf-8")
+        updated = source.replace(old, new).replace(old_plain, new_plain)
+        if updated != source:
+            file.write_text(updated, encoding="utf-8")
 
 
 if __name__ == "__main__":

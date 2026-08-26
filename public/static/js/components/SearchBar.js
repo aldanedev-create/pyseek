@@ -28,7 +28,7 @@ const __readProps = (element, parentState) => {
     if (attribute.name === "data-v-" || attribute.name.startsWith("data-v-") || attribute.name.startsWith("data-teloce-event-")) continue;
     if (attribute.name === "data-teloce-is") { props.__dynamic = __evaluate(attribute.value, parentState); continue; }
     if (attribute.name.startsWith("data-teloce-bind-")) props[attribute.name.slice("data-teloce-bind-".length)] = __evaluate(attribute.value, parentState); else if (attribute.name.startsWith(":")) props[attribute.name.slice(1)] = __evaluate(attribute.value, parentState);
-    else if (!attribute.name.startsWith("data-")) props[attribute.name] = attribute.value;
+    else if (!attribute.name.startsWith("data-") && !element.hasAttribute("data-teloce-bind-" + attribute.name)) props[attribute.name] = attribute.value;
   }
   return props;
 };
